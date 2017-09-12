@@ -1,0 +1,27 @@
+<h2>Usuarios</h2>
+
+ <table class="table">
+   <thead>
+     <tr>
+       <th>Email</th>
+     </tr>
+   </thead>
+   <tbody>
+     <%= for user <- @users do %>
+     <tr>
+      <td><%= user.email %></td>
+      <td class="text-right">
+        <%= link "Mostrar", to: user_path(@conn, :show, user),
+          class: "btn btn-default btn-xs" %>
+        <%= link "Editar", to: user_path(@conn, :edit, user),
+          class: "btn btn-default btn-xs" %>
+        <%= link "Eliminar Usuario", to: user_path(@conn, :delete, user),
+          method: :delete, data: [confirm: "Estas seguro?"], class: "btn
+          btn-danger btn-xs"%>
+      </td>
+     </tr>
+     <% end %>
+   </tbody>
+ </table>
+
+<%= link "Nuevo Usuario", to: user_path(@conn, :new) %>
