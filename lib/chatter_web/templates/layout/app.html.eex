@@ -14,6 +14,11 @@
   <body>
     <div class="container">
       <header class="header">
+        <nav role="navigation">
+          <ul class="nav nav-pills pull-right">
+            <li><%= render "logged.html", conn: @conn %></li>
+          </ul>
+        </nav>
         <span class="logo"></span>
       </header>
 

@@ -1,8 +1,6 @@
 defmodule Chatter.Chat.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Chatter.Chat.User
-
 
   schema "users" do
     field :email, :string
@@ -18,5 +16,23 @@ defmodule Chatter.Chat.User do
     |> cast(params, [:email, :password])
     |> validate_required([:email, :password])
     |> unique_constraint(:email)
+  end
+
+  def reg_changeset(struct, params \\ %{}) do
+    struct
+    |> changeset(params)
+    |> cast(params, [:password], [])
+    |> validate_length(:password, min: 5)
+    |> hash_pw()
+  end
+
+  def hash_pw(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: p}} ->
+        put_change(changeset, :encrypt_pass, Comeonin.Pbkdf2.hashpwsalt(p))
+
+      _ ->
+        changeset
+    end
   end
 end
